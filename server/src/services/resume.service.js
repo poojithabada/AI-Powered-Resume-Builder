@@ -105,13 +105,48 @@ export const updateTemplate = async (resumeId, userId, templateId) => {
   return resume;
 };
 
-export const createFromUpload = async (userId, parsedSections, title = 'Uploaded Resume') => {
+export const createFromUpload = async (
+  userId,
+  parsedSections,
+  title = 'Uploaded Resume'
+) => {
+
+  if (Array.isArray(parsedSections.projects)) {
+    parsedSections.projects = parsedSections.projects.map(project => {
+      if (typeof project === 'string') {
+        return {
+          name: project,
+          description: '',
+          technologies: [],
+          link: '',
+          bullets: []
+        };
+      }
+      return project;
+    });
+  }
+
+  if (Array.isArray(parsedSections.certifications)) {
+    parsedSections.certifications = parsedSections.certifications.map(cert => {
+      if (typeof cert === 'string') {
+        return {
+          name: cert,
+          issuer: '',
+          date: '',
+          link: ''
+        };
+      }
+      return cert;
+    });
+  }
+
   const resume = await Resume.create({
     userId,
     title,
     templateId: 'classic',
     sections: parsedSections,
   });
+
   return resume;
 };
 
