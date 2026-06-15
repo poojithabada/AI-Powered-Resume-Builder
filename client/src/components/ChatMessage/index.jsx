@@ -27,9 +27,12 @@ function ChatMessage({ role, content, timestamp, extractedData, onApply }) {
           </div>
         )}
 
-        <p className="text-sm">
-          {content}
-        </p>
+        <p
+  className="text-sm"
+  style={{ color: "#000000" }}
+>
+  {JSON.stringify(content)}
+</p>
 
         <div className={`flex-row items-center gap-sm mt-sm ${isUser ? 'justify-end' : 'flex-between'}`}>
           <span className="chat-timestamp">
