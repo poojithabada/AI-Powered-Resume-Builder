@@ -13,7 +13,15 @@ import { errorHandler, notFoundHandler } from './middleware/error.middleware.js'
 const app = express(); // Express app instance (Express.js: Application Setup)
 
 // --- Middleware ---
-app.use(cors({ origin: process.env.CLIENT_URL || 'https://ai-powered-resume-builder-eight.vercel.app/' })); // CORS middleware (Express.js: Middleware)
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://ai-powered-resume-builder-eight.vercel.app"
+    ],
+    credentials: true
+  })
+); // CORS middleware (Express.js: Middleware)
 app.use(express.json({ limit: '10mb' })); // JSON body parser (Express.js: Middleware)
 
 // --- Routes ---
