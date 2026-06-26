@@ -6,7 +6,7 @@
 // ============================================
 
 import React from 'react';
-import { View, Text, Link, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, View, Text, Link, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// IMPORTANT: This function declaration must exist!
 const ClassicPdf = ({ 
   personalInfo = {}, 
   summary = '', 
@@ -116,158 +115,160 @@ const ClassicPdf = ({
   certifications = [] 
 }) => {
   return (
-    <View style={styles.page}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.name}>{personalInfo.fullName || 'Your Full Name'}</Text>
-        <View style={styles.contactRow}>
-          {personalInfo.email && <Text>{personalInfo.email}</Text>}
-          {personalInfo.email && personalInfo.phone && <Text style={styles.separator}>|</Text>}
-          {personalInfo.phone && <Text>{personalInfo.phone}</Text>}
-          {personalInfo.phone && personalInfo.location && <Text style={styles.separator}>|</Text>}
-          {personalInfo.location && <Text>{personalInfo.location}</Text>}
-          {personalInfo.linkedIn && (
-            <>
-              <Text style={styles.separator}>|</Text>
-              <Link src={personalInfo.linkedIn} style={styles.link}>LinkedIn</Link>
-            </>
-          )}
-          {personalInfo.portfolio && (
-            <>
-              <Text style={styles.separator}>|</Text>
-              <Link src={personalInfo.portfolio} style={styles.link}>Portfolio</Link>
-            </>
-          )}
+    <Document>
+      <Page size="A4" style={styles.page}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.name}>{personalInfo.fullName || 'Your Full Name'}</Text>
+          <View style={styles.contactRow}>
+            {personalInfo.email && <Text>{personalInfo.email}</Text>}
+            {personalInfo.email && personalInfo.phone && <Text style={styles.separator}>|</Text>}
+            {personalInfo.phone && <Text>{personalInfo.phone}</Text>}
+            {personalInfo.phone && personalInfo.location && <Text style={styles.separator}>|</Text>}
+            {personalInfo.location && <Text>{personalInfo.location}</Text>}
+            {personalInfo.linkedIn && (
+              <>
+                <Text style={styles.separator}>|</Text>
+                <Link src={personalInfo.linkedIn} style={styles.link}>LinkedIn</Link>
+              </>
+            )}
+            {personalInfo.portfolio && (
+              <>
+                <Text style={styles.separator}>|</Text>
+                <Link src={personalInfo.portfolio} style={styles.link}>Portfolio</Link>
+              </>
+            )}
+          </View>
         </View>
-      </View>
 
-      <View style={styles.hr} />
+        <View style={styles.hr} />
 
-      {/* Summary */}
-      {summary ? (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Professional Summary</Text>
-          <Text style={styles.text}>{summary}</Text>
-        </View>
-      ) : null}
+        {/* Summary */}
+        {summary ? (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Professional Summary</Text>
+            <Text style={styles.text}>{summary}</Text>
+          </View>
+        ) : null}
 
-      {/* Experience */}
-      {experience.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Work Experience</Text>
-          {experience.map((exp, i) => (
-            <View key={i} style={{ marginBottom: 8 }}>
-              <View style={styles.row}>
-                <View style={{ flexDirection: 'row', flex: 1 }}>
-                  <Text style={styles.bold}>{exp.role}</Text>
-                  {exp.company && <Text> — {exp.company}</Text>}
+        {/* Experience */}
+        {experience.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Work Experience</Text>
+            {experience.map((exp, i) => (
+              <View key={i} style={{ marginBottom: 8 }}>
+                <View style={styles.row}>
+                  <View style={{ flexDirection: 'row', flex: 1 }}>
+                    <Text style={styles.bold}>{exp.role}</Text>
+                    {exp.company && <Text> — {exp.company}</Text>}
+                  </View>
+                  <Text style={styles.light}>
+                    {exp.startDate}{exp.startDate && (exp.endDate || exp.current) ? ' – ' : ''}
+                    {exp.current ? 'Present' : exp.endDate}
+                  </Text>
+                </View>
+                {exp.bullets && exp.bullets.map((bullet, j) => (
+                  <View key={j} style={styles.bulletItem}>
+                    <Text style={styles.bulletDot}>•</Text>
+                    <Text style={styles.bulletText}>{bullet}</Text>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Projects */}
+        {projects.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Projects</Text>
+            {projects.map((proj, i) => (
+              <View key={i} style={{ marginBottom: 8 }}>
+                <View style={styles.projectHeader}>
+                  <Text style={styles.bold}>{proj.name}</Text>
+                  {proj.link && <Link src={proj.link} style={styles.link}>Link</Link>}
+                </View>
+                {proj.description && <Text style={{ fontSize: 10, marginBottom: 2 }}>{proj.description}</Text>}
+                {proj.technologies && proj.technologies.length > 0 && (
+                  <Text style={[styles.light, { marginBottom: 2 }]}>
+                    Technologies: {proj.technologies.join(', ')}
+                  </Text>
+                )}
+                {proj.bullets && proj.bullets.map((bullet, j) => (
+                  <View key={j} style={styles.bulletItem}>
+                    <Text style={styles.bulletDot}>•</Text>
+                    <Text style={styles.bulletText}>{bullet}</Text>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Education */}
+        {education.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Education</Text>
+            {education.map((edu, i) => (
+              <View key={i} style={[styles.row, { marginBottom: 4 }]}>
+                <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
+                  <Text style={styles.bold}>{edu.degree}</Text>
+                  {edu.field && <Text> in {edu.field}</Text>}
+                  {edu.institution && <Text> — {edu.institution}</Text>}
+                  {edu.gpa && <Text style={styles.light}> (GPA: {edu.gpa})</Text>}
                 </View>
                 <Text style={styles.light}>
-                  {exp.startDate}{exp.startDate && (exp.endDate || exp.current) ? ' – ' : ''}
-                  {exp.current ? 'Present' : exp.endDate}
+                  {edu.startDate}{edu.startDate && edu.endDate ? ' – ' : ''}{edu.endDate}
                 </Text>
               </View>
-              {exp.bullets && exp.bullets.map((bullet, j) => (
-                <View key={j} style={styles.bulletItem}>
-                  <Text style={styles.bulletDot}>•</Text>
-                  <Text style={styles.bulletText}>{bullet}</Text>
-                </View>
-              ))}
-            </View>
-          ))}
-        </View>
-      )}
+            ))}
+          </View>
+        )}
 
-      {/* Projects */}
-      {projects.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Projects</Text>
-          {projects.map((proj, i) => (
-            <View key={i} style={{ marginBottom: 8 }}>
-              <View style={styles.projectHeader}>
-                <Text style={styles.bold}>{proj.name}</Text>
-                {proj.link && <Link src={proj.link} style={styles.link}>Link</Link>}
-              </View>
-              {proj.description && <Text style={{ fontSize: 10, marginBottom: 2 }}>{proj.description}</Text>}
-              {proj.technologies && proj.technologies.length > 0 && (
-                <Text style={[styles.light, { marginBottom: 2 }]}>
-                  Technologies: {proj.technologies.join(', ')}
-                </Text>
-              )}
-              {proj.bullets && proj.bullets.map((bullet, j) => (
-                <View key={j} style={styles.bulletItem}>
-                  <Text style={styles.bulletDot}>•</Text>
-                  <Text style={styles.bulletText}>{bullet}</Text>
-                </View>
-              ))}
-            </View>
-          ))}
-        </View>
-      )}
-
-      {/* Education */}
-      {education.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Education</Text>
-          {education.map((edu, i) => (
-            <View key={i} style={[styles.row, { marginBottom: 4 }]}>
-              <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
-                <Text style={styles.bold}>{edu.degree}</Text>
-                {edu.field && <Text> in {edu.field}</Text>}
-                {edu.institution && <Text> — {edu.institution}</Text>}
-                {edu.gpa && <Text style={styles.light}> (GPA: {edu.gpa})</Text>}
-              </View>
-              <Text style={styles.light}>
-                {edu.startDate}{edu.startDate && edu.endDate ? ' – ' : ''}{edu.endDate}
+        {/* Skills */}
+        {(skills.technical?.length > 0 || skills.soft?.length > 0) && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Skills</Text>
+            {skills.technical?.length > 0 && (
+              <Text style={styles.skillLine}>
+                <Text style={styles.bold}>Technical: </Text>
+                {skills.technical.join(', ')}
               </Text>
-            </View>
-          ))}
-        </View>
-      )}
+            )}
+            {skills.soft?.length > 0 && (
+              <Text style={styles.skillLine}>
+                <Text style={styles.bold}>Soft Skills: </Text>
+                {skills.soft.join(', ')}
+              </Text>
+            )}
+            {skills.languages?.length > 0 && (
+              <Text style={styles.skillLine}>
+                <Text style={styles.bold}>Languages: </Text>
+                {skills.languages.join(', ')}
+              </Text>
+            )}
+          </View>
+        )}
 
-      {/* Skills */}
-      {(skills.technical?.length > 0 || skills.soft?.length > 0) && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Skills</Text>
-          {skills.technical?.length > 0 && (
-            <Text style={styles.skillLine}>
-              <Text style={styles.bold}>Technical: </Text>
-              {skills.technical.join(', ')}
-            </Text>
-          )}
-          {skills.soft?.length > 0 && (
-            <Text style={styles.skillLine}>
-              <Text style={styles.bold}>Soft Skills: </Text>
-              {skills.soft.join(', ')}
-            </Text>
-          )}
-          {skills.languages?.length > 0 && (
-            <Text style={styles.skillLine}>
-              <Text style={styles.bold}>Languages: </Text>
-              {skills.languages.join(', ')}
-            </Text>
-          )}
-        </View>
-      )}
-
-      {/* Certifications */}
-      {certifications.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Certifications</Text>
-          {certifications.map((cert, i) => (
-            <View key={i} style={[styles.row, { marginBottom: 3 }]}>
-              <View style={{ flexDirection: 'row', flex: 1, alignItems: 'baseline' }}>
-                <Text style={styles.bold}>{cert.name}</Text>
-                {cert.issuer && <Text> — {cert.issuer}</Text>}
-                {cert.link && <Link src={cert.link} style={[styles.link, { marginLeft: 6 }]}>View</Link>}
+        {/* Certifications */}
+        {certifications.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Certifications</Text>
+            {certifications.map((cert, i) => (
+              <View key={i} style={[styles.row, { marginBottom: 3 }]}>
+                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'baseline' }}>
+                  <Text style={styles.bold}>{cert.name}</Text>
+                  {cert.issuer && <Text> — {cert.issuer}</Text>}
+                  {cert.link && <Link src={cert.link} style={[styles.link, { marginLeft: 6 }]}>View</Link>}
+                </View>
+                {cert.date && <Text style={styles.light}>{cert.date}</Text>}
               </View>
-              {cert.date && <Text style={styles.light}>{cert.date}</Text>}
-            </View>
-          ))}
-        </View>
-      )}
-    </View>
+            ))}
+          </View>
+        )}
+      </Page>
+    </Document>
   );
-}; // This closing bracket pairs with the `const ClassicPdf = ...` opening bracket
+};
 
 export default ClassicPdf;
