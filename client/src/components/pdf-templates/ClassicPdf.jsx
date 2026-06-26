@@ -80,11 +80,8 @@ function ClassicPdf({ sections, colors }) {
 
   light: {
     fontSize: 9,
-    color: '#64748b',
+    color: '#464A4F',
   },
-  techLabel: {
-  color: '#464A4F',
-},
 
   text: {
     fontSize: 10,
@@ -244,11 +241,8 @@ function ClassicPdf({ sections, colors }) {
               {proj.description && <Text style={{ fontSize: 10, marginTop: 1 }}>{proj.description}</Text>}
               {proj.technologies && proj.technologies.length > 0 && (
                 <Text style={[styles.light, { marginTop: 1 }]}>
-  <Text style={styles.techLabel}>
-    Technologies:
-  </Text>{' '}
-  {proj.technologies.join(', ')}
-</Text>
+                  Technologies: {proj.technologies.join(', ')}
+                </Text>
               )}
               {proj.bullets && proj.bullets.map((bullet, j) => (
                 <View key={j} style={styles.bulletItem}>
