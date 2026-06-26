@@ -15,7 +15,7 @@ function ClassicPdf({ sections, colors }) {
     paddingTop: 40,
     paddingBottom: 40,
     paddingHorizontal: 38,
-    fontFamily: 'Arial',
+    fontFamily: 'Georgia',
     color: colors.text,
     fontSize: 10,
     lineHeight: 1.6,
@@ -28,7 +28,7 @@ function ClassicPdf({ sections, colors }) {
 
   name: {
     fontSize: 24,
-    fontFamily: 'Arial-Bold',
+    fontFamily: 'Georgia-Bold',
     color: colors.primary,
     marginBottom: 8,
   },
