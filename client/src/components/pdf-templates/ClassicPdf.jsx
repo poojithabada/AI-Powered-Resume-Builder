@@ -7,61 +7,59 @@
 
 import { View, Text, Link, StyleSheet } from '@react-pdf/renderer';
 
+// Note: Ensure `colors` is defined in your scope or passed as a prop.
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 32,
-    paddingBottom: 32,
-    paddingHorizontal: 36,
-    fontFamily: 'Helvetica',
-    color: colors.text,
+    paddingTop: 36,
+    paddingBottom: 36,
+    paddingHorizontal: 40,
+    fontFamily: 'Times-Roman', // Switched to serif font to match the preview
+    color: '#333333', // Darkened for better print/PDF readability
     fontSize: 10,
-    lineHeight: 1.45,
+    lineHeight: 1.35, // Tightened line height to match the compact preview look
   },
 
   header: {
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
 
   name: {
-    fontSize: 24,
-    fontFamily: 'Helvetica-Bold',
-    color: colors.primary,
-    marginBottom: 8,
+    fontSize: 22,
+    fontFamily: 'Times-Bold',
+    marginBottom: 6,
   },
 
   contactRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    gap: 8,
-    marginTop: 6,
+    gap: 6,
     fontSize: 9,
   },
 
   separator: {
-    color: '#cbd5e1',
+    color: '#94a3b8',
   },
 
   hr: {
-    borderBottom: `2px solid ${colors.primary}`,
-    marginTop: 10,
-    marginBottom: 14,
+    borderBottom: '1px solid #333333',
+    marginTop: 8,
+    marginBottom: 12,
   },
 
   section: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
 
   sectionTitle: {
     fontSize: 11,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Times-Bold',
     textTransform: 'uppercase',
-    letterSpacing: 1.5,
-    color: colors.primary,
-    borderBottom: `2px solid ${colors.primary}`,
-    paddingBottom: 4,
-    marginBottom: 10,
+    letterSpacing: 1,
+    borderBottom: '1px solid #333333',
+    paddingBottom: 2,
+    marginBottom: 8,
   },
 
   row: {
@@ -72,51 +70,67 @@ const styles = StyleSheet.create({
   },
 
   bold: {
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: 'Times-Bold',
   },
 
   light: {
     fontSize: 9,
-    color: '#64748b',
+    color: '#555555',
   },
 
   text: {
     fontSize: 10,
-    lineHeight: 1.6,
-    marginBottom: 3,
+    lineHeight: 1.4,
+    marginBottom: 2,
   },
 
   bulletItem: {
     flexDirection: 'row',
-    marginLeft: 10,
-    marginTop: 3,
-    marginBottom: 3,
+    marginLeft: 12,
+    marginTop: 2,
+    marginBottom: 2,
   },
 
   bulletDot: {
-    width: 10,
+    width: 12,
     fontSize: 10,
   },
 
   bulletText: {
     flex: 1,
     fontSize: 10,
-    lineHeight: 1.6,
+    lineHeight: 1.4,
   },
 
   link: {
-    color: colors.accent,
+    color: '#2563eb', // Standard link blue
     textDecoration: 'underline',
     fontSize: 9,
   },
 
   skillLine: {
     fontSize: 10,
-    lineHeight: 1.6,
-    marginTop: 4,
+    lineHeight: 1.4,
+    marginTop: 2,
   },
+  
+  projectHeader: {
+    flexDirection: 'row', 
+    alignItems: 'baseline', 
+    gap: 6,
+    marginBottom: 2
+  }
 });
 
+const ClassicPdf = ({ 
+  personalInfo = {}, 
+  summary = '', 
+  experience = [], 
+  education = [], 
+  skills = { technical: [], soft: [], languages: [] }, 
+  projects = [], 
+  certifications = [] 
+}) => {
   return (
     <View style={styles.page}>
       {/* Header */}
@@ -143,8 +157,6 @@ const styles = StyleSheet.create({
         </View>
       </View>
 
-      <View style={styles.hr} />
-
       {/* Summary */}
       {summary ? (
         <View style={styles.section}>
@@ -158,7 +170,7 @@ const styles = StyleSheet.create({
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Work Experience</Text>
           {experience.map((exp, i) => (
-            <View key={i} style={{ marginBottom: 6 }}>
+            <View key={i} style={{ marginBottom: 8 }}>
               <View style={styles.row}>
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                   <Text style={styles.bold}>{exp.role}</Text>
@@ -170,6 +182,33 @@ const styles = StyleSheet.create({
                 </Text>
               </View>
               {exp.bullets && exp.bullets.map((bullet, j) => (
+                <View key={j} style={styles.bulletItem}>
+                  <Text style={styles.bulletDot}>•</Text>
+                  <Text style={styles.bulletText}>{bullet}</Text>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
+      )}
+
+      {/* Projects */}
+      {projects.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Projects</Text>
+          {projects.map((proj, i) => (
+            <View key={i} style={{ marginBottom: 8 }}>
+              <View style={styles.projectHeader}>
+                <Text style={styles.bold}>{proj.name}</Text>
+                {proj.link && <Link src={proj.link} style={styles.link}>Link</Link>}
+              </View>
+              {proj.description && <Text style={{ fontSize: 10, marginBottom: 2 }}>{proj.description}</Text>}
+              {proj.technologies && proj.technologies.length > 0 && (
+                <Text style={[styles.light, { marginBottom: 2 }]}>
+                  Technologies: {proj.technologies.join(', ')}
+                </Text>
+              )}
+              {proj.bullets && proj.bullets.map((bullet, j) => (
                 <View key={j} style={styles.bulletItem}>
                   <Text style={styles.bulletDot}>•</Text>
                   <Text style={styles.bulletText}>{bullet}</Text>
@@ -201,54 +240,27 @@ const styles = StyleSheet.create({
       )}
 
       {/* Skills */}
-      {(skills.technical.length > 0 || skills.soft.length > 0) && (
+      {(skills.technical?.length > 0 || skills.soft?.length > 0) && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Skills</Text>
-          {skills.technical.length > 0 && (
+          {skills.technical?.length > 0 && (
             <Text style={styles.skillLine}>
               <Text style={styles.bold}>Technical: </Text>
               {skills.technical.join(', ')}
             </Text>
           )}
-          {skills.soft.length > 0 && (
+          {skills.soft?.length > 0 && (
             <Text style={styles.skillLine}>
               <Text style={styles.bold}>Soft Skills: </Text>
               {skills.soft.join(', ')}
             </Text>
           )}
-          {skills.languages.length > 0 && (
+          {skills.languages?.length > 0 && (
             <Text style={styles.skillLine}>
               <Text style={styles.bold}>Languages: </Text>
               {skills.languages.join(', ')}
             </Text>
           )}
-        </View>
-      )}
-
-      {/* Projects */}
-      {projects.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Projects</Text>
-          {projects.map((proj, i) => (
-            <View key={i} style={{ marginBottom: 6 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 4 }}>
-                <Text style={styles.bold}>{proj.name}</Text>
-                {proj.link && <Link src={proj.link} style={styles.link}>Link</Link>}
-              </View>
-              {proj.description && <Text style={{ fontSize: 10, marginTop: 1 }}>{proj.description}</Text>}
-              {proj.technologies && proj.technologies.length > 0 && (
-                <Text style={[styles.light, { marginTop: 1 }]}>
-                  Technologies: {proj.technologies.join(', ')}
-                </Text>
-              )}
-              {proj.bullets && proj.bullets.map((bullet, j) => (
-                <View key={j} style={styles.bulletItem}>
-                  <Text style={styles.bulletDot}>•</Text>
-                  <Text style={styles.bulletText}>{bullet}</Text>
-                </View>
-              ))}
-            </View>
-          ))}
         </View>
       )}
 
@@ -258,10 +270,10 @@ const styles = StyleSheet.create({
           <Text style={styles.sectionTitle}>Certifications</Text>
           {certifications.map((cert, i) => (
             <View key={i} style={[styles.row, { marginBottom: 3 }]}>
-              <View style={{ flexDirection: 'row', flex: 1 }}>
+              <View style={{ flexDirection: 'row', flex: 1, alignItems: 'baseline' }}>
                 <Text style={styles.bold}>{cert.name}</Text>
                 {cert.issuer && <Text> — {cert.issuer}</Text>}
-                {cert.link && <Link src={cert.link} style={[styles.link, { marginLeft: 4 }]}>View</Link>}
+                {cert.link && <Link src={cert.link} style={[styles.link, { marginLeft: 6 }]}>View</Link>}
               </View>
               {cert.date && <Text style={styles.light}>{cert.date}</Text>}
             </View>
