@@ -12,30 +12,30 @@ function ClassicPdf({ sections, colors }) {
 
   const styles = StyleSheet.create({
     page: { 
-      padding: 48, // Increased from 40 for more outer spacing
-      fontFamily: 'Helvetica', // Changed from Times-Roman to match web preview
+      padding: 40, 
+      fontFamily: 'Helvetica', // Forced Helvetica to match web
       color: colors.text, 
-      fontSize: 10 
+      fontSize: 10,
+      lineHeight: 1.5 
     },
-    header: { textAlign: 'center', marginBottom: 12 }, // Increased spacing
-    name: { fontSize: 20, fontFamily: 'Helvetica-Bold', color: colors.primary, letterSpacing: 1 },
-    contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', gap: 8, marginTop: 6, fontSize: 9 },
+    header: { textAlign: 'center', marginBottom: 12 },
+    name: { fontSize: 20, fontFamily: 'Helvetica-Bold', color: colors.primary, letterSpacing: 0.5 },
+    contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', gap: 6, marginTop: 4, fontSize: 9 },
     separator: { color: '#cbd5e1' },
-    hr: { borderBottom: `2px solid ${colors.primary}`, marginTop: 12, marginBottom: 16 }, // Increased spacing
+    hr: { borderBottom: `2px solid ${colors.primary}`, marginTop: 10, marginBottom: 14 },
     sectionTitle: {
-      fontSize: 9, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', letterSpacing: 2,
-      color: colors.primary, borderBottom: `2px solid ${colors.primary}`, paddingBottom: 4, marginBottom: 10,
+      fontSize: 10, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', letterSpacing: 1,
+      color: colors.primary, borderBottom: `2px solid ${colors.primary}`, paddingBottom: 4, marginBottom: 8,
     },
-    section: { marginBottom: 16 }, // Increased from 10 for more breathing room
+    section: { marginBottom: 14 },
     row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 },
     bold: { fontFamily: 'Helvetica-Bold' },
     light: { fontSize: 9, color: '#64748b' },
-    text: { fontSize: 10, lineHeight: 1.6 }, // Increased line height
-    bulletItem: { flexDirection: 'row', marginLeft: 12, marginTop: 4 }, // Increased margin
+    bulletItem: { flexDirection: 'row', marginLeft: 10, marginTop: 4 },
     bulletDot: { width: 8, fontSize: 10 },
-    bulletText: { flex: 1, fontSize: 10, lineHeight: 1.6 }, // Increased line height
+    bulletText: { flex: 1, fontSize: 10 },
     link: { color: colors.accent, textDecoration: 'underline', fontSize: 9 },
-    skillLine: { fontSize: 10, marginTop: 4, lineHeight: 1.6 }, // Added line height and margin
+    skillLine: { fontSize: 10, marginTop: 4 },
   });
 
   return (
