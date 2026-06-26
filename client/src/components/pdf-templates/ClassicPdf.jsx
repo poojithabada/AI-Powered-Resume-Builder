@@ -11,31 +11,26 @@ function ClassicPdf({ sections, colors }) {
   const { personalInfo, summary, experience, education, skills, projects, certifications } = sections;
 
   const styles = StyleSheet.create({
-    page: { 
-      padding: 40, 
-      fontFamily: 'Helvetica', // Forced Helvetica to match web
-      color: colors.text, 
-      fontSize: 10,
-      lineHeight: 1.5 
-    },
-    header: { textAlign: 'center', marginBottom: 12 },
-    name: { fontSize: 20, fontFamily: 'Helvetica-Bold', color: colors.primary, letterSpacing: 0.5 },
+    page: { padding: 40, fontFamily: 'Times-Roman', color: colors.text, fontSize: 10 },
+    header: { textAlign: 'center', marginBottom: 8 },
+    name: { fontSize: 20, fontFamily: 'Times-Bold', color: colors.primary, letterSpacing: 1 },
     contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', gap: 6, marginTop: 4, fontSize: 9 },
     separator: { color: '#cbd5e1' },
-    hr: { borderBottom: `2px solid ${colors.primary}`, marginTop: 10, marginBottom: 14 },
+    hr: { borderBottom: `2px solid ${colors.primary}`, marginTop: 8, marginBottom: 10 },
     sectionTitle: {
-      fontSize: 10, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', letterSpacing: 1,
-      color: colors.primary, borderBottom: `2px solid ${colors.primary}`, paddingBottom: 4, marginBottom: 8,
+      fontSize: 9, fontFamily: 'Times-Bold', textTransform: 'uppercase', letterSpacing: 2,
+      color: colors.primary, borderBottom: `2px solid ${colors.primary}`, paddingBottom: 2, marginBottom: 6,
     },
-    section: { marginBottom: 14 },
-    row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 },
-    bold: { fontFamily: 'Helvetica-Bold' },
+    section: { marginBottom: 10 },
+    row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+    bold: { fontFamily: 'Times-Bold' },
     light: { fontSize: 9, color: '#64748b' },
-    bulletItem: { flexDirection: 'row', marginLeft: 10, marginTop: 4 },
+    text: { fontSize: 10, lineHeight: 1.5 },
+    bulletItem: { flexDirection: 'row', marginLeft: 12, marginTop: 2 },
     bulletDot: { width: 8, fontSize: 10 },
-    bulletText: { flex: 1, fontSize: 10 },
+    bulletText: { flex: 1, fontSize: 10, lineHeight: 1.5 },
     link: { color: colors.accent, textDecoration: 'underline', fontSize: 9 },
-    skillLine: { fontSize: 10, marginTop: 4 },
+    skillLine: { fontSize: 10, marginTop: 2 },
   });
 
   return (
@@ -79,7 +74,7 @@ function ClassicPdf({ sections, colors }) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Work Experience</Text>
           {experience.map((exp, i) => (
-            <View key={i} style={{ marginBottom: 10 }}>
+            <View key={i} style={{ marginBottom: 6 }}>
               <View style={styles.row}>
                 <View style={{ flexDirection: 'row', flex: 1 }}>
                   <Text style={styles.bold}>{exp.role}</Text>
@@ -106,7 +101,7 @@ function ClassicPdf({ sections, colors }) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Education</Text>
           {education.map((edu, i) => (
-            <View key={i} style={[styles.row, { marginBottom: 6 }]}>
+            <View key={i} style={[styles.row, { marginBottom: 4 }]}>
               <View style={{ flexDirection: 'row', flex: 1, flexWrap: 'wrap' }}>
                 <Text style={styles.bold}>{edu.degree}</Text>
                 {edu.field && <Text> in {edu.field}</Text>}
@@ -151,14 +146,14 @@ function ClassicPdf({ sections, colors }) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Projects</Text>
           {projects.map((proj, i) => (
-            <View key={i} style={{ marginBottom: 10 }}>
+            <View key={i} style={{ marginBottom: 6 }}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 4 }}>
                 <Text style={styles.bold}>{proj.name}</Text>
                 {proj.link && <Link src={proj.link} style={styles.link}>Link</Link>}
               </View>
-              {proj.description && <Text style={{ fontSize: 10, marginTop: 2 }}>{proj.description}</Text>}
+              {proj.description && <Text style={{ fontSize: 10, marginTop: 1 }}>{proj.description}</Text>}
               {proj.technologies && proj.technologies.length > 0 && (
-                <Text style={[styles.light, { marginTop: 2 }]}>
+                <Text style={[styles.light, { marginTop: 1 }]}>
                   Technologies: {proj.technologies.join(', ')}
                 </Text>
               )}
@@ -178,7 +173,7 @@ function ClassicPdf({ sections, colors }) {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Certifications</Text>
           {certifications.map((cert, i) => (
-            <View key={i} style={[styles.row, { marginBottom: 6 }]}>
+            <View key={i} style={[styles.row, { marginBottom: 3 }]}>
               <View style={{ flexDirection: 'row', flex: 1 }}>
                 <Text style={styles.bold}>{cert.name}</Text>
                 {cert.issuer && <Text> — {cert.issuer}</Text>}
