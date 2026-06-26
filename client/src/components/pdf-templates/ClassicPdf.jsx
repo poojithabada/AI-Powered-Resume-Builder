@@ -7,31 +7,115 @@
 
 import { View, Text, Link, StyleSheet } from '@react-pdf/renderer';
 
-function ClassicPdf({ sections, colors }) {
-  const { personalInfo, summary, experience, education, skills, projects, certifications } = sections;
+const styles = StyleSheet.create({
+  page: {
+    paddingTop: 32,
+    paddingBottom: 32,
+    paddingHorizontal: 36,
+    fontFamily: 'Helvetica',
+    color: colors.text,
+    fontSize: 10,
+    lineHeight: 1.45,
+  },
 
-  const styles = StyleSheet.create({
-    page: { padding: 40, fontFamily: 'Times-Roman', color: colors.text, fontSize: 10 },
-    header: { textAlign: 'center', marginBottom: 8 },
-    name: { fontSize: 20, fontFamily: 'Times-Bold', color: colors.primary, letterSpacing: 1 },
-    contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', gap: 6, marginTop: 4, fontSize: 9 },
-    separator: { color: '#cbd5e1' },
-    hr: { borderBottom: `2px solid ${colors.primary}`, marginTop: 8, marginBottom: 10 },
-    sectionTitle: {
-      fontSize: 9, fontFamily: 'Times-Bold', textTransform: 'uppercase', letterSpacing: 2,
-      color: colors.primary, borderBottom: `2px solid ${colors.primary}`, paddingBottom: 2, marginBottom: 6,
-    },
-    section: { marginBottom: 10 },
-    row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-    bold: { fontFamily: 'Times-Bold' },
-    light: { fontSize: 9, color: '#64748b' },
-    text: { fontSize: 10, lineHeight: 1.5 },
-    bulletItem: { flexDirection: 'row', marginLeft: 12, marginTop: 2 },
-    bulletDot: { width: 8, fontSize: 10 },
-    bulletText: { flex: 1, fontSize: 10, lineHeight: 1.5 },
-    link: { color: colors.accent, textDecoration: 'underline', fontSize: 9 },
-    skillLine: { fontSize: 10, marginTop: 2 },
-  });
+  header: {
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+
+  name: {
+    fontSize: 24,
+    fontFamily: 'Helvetica-Bold',
+    color: colors.primary,
+    marginBottom: 8,
+  },
+
+  contactRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 6,
+    fontSize: 9,
+  },
+
+  separator: {
+    color: '#cbd5e1',
+  },
+
+  hr: {
+    borderBottom: `2px solid ${colors.primary}`,
+    marginTop: 10,
+    marginBottom: 14,
+  },
+
+  section: {
+    marginBottom: 16,
+  },
+
+  sectionTitle: {
+    fontSize: 11,
+    fontFamily: 'Helvetica-Bold',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    color: colors.primary,
+    borderBottom: `2px solid ${colors.primary}`,
+    paddingBottom: 4,
+    marginBottom: 10,
+  },
+
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 4,
+  },
+
+  bold: {
+    fontFamily: 'Helvetica-Bold',
+  },
+
+  light: {
+    fontSize: 9,
+    color: '#64748b',
+  },
+
+  text: {
+    fontSize: 10,
+    lineHeight: 1.6,
+    marginBottom: 3,
+  },
+
+  bulletItem: {
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginTop: 3,
+    marginBottom: 3,
+  },
+
+  bulletDot: {
+    width: 10,
+    fontSize: 10,
+  },
+
+  bulletText: {
+    flex: 1,
+    fontSize: 10,
+    lineHeight: 1.6,
+  },
+
+  link: {
+    color: colors.accent,
+    textDecoration: 'underline',
+    fontSize: 9,
+  },
+
+  skillLine: {
+    fontSize: 10,
+    lineHeight: 1.6,
+    marginTop: 4,
+  },
+});
 
   return (
     <View style={styles.page}>
