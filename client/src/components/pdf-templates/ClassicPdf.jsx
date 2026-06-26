@@ -5,31 +5,28 @@
 // Uses @react-pdf/renderer primitives only.
 // ============================================
 
+import React from 'react';
 import { View, Text, Link, StyleSheet } from '@react-pdf/renderer';
 
-// Note: Ensure `colors` is defined in your scope or passed as a prop.
 const styles = StyleSheet.create({
   page: {
     paddingTop: 36,
     paddingBottom: 36,
     paddingHorizontal: 40,
-    fontFamily: 'Times-Roman', // Switched to serif font to match the preview
-    color: '#333333', // Darkened for better print/PDF readability
+    fontFamily: 'Times-Roman',
+    color: '#333333',
     fontSize: 10,
-    lineHeight: 1.35, // Tightened line height to match the compact preview look
+    lineHeight: 1.35,
   },
-
   header: {
     textAlign: 'center',
     marginBottom: 10,
   },
-
   name: {
     fontSize: 22,
     fontFamily: 'Times-Bold',
     marginBottom: 6,
   },
-
   contactRow: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -37,21 +34,17 @@ const styles = StyleSheet.create({
     gap: 6,
     fontSize: 9,
   },
-
   separator: {
     color: '#94a3b8',
   },
-
   hr: {
     borderBottom: '1px solid #333333',
     marginTop: 8,
     marginBottom: 12,
   },
-
   section: {
     marginBottom: 12,
   },
-
   sectionTitle: {
     fontSize: 11,
     fontFamily: 'Times-Bold',
@@ -61,59 +54,49 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     marginBottom: 8,
   },
-
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     marginBottom: 4,
   },
-
   bold: {
     fontFamily: 'Times-Bold',
   },
-
   light: {
     fontSize: 9,
     color: '#555555',
   },
-
   text: {
     fontSize: 10,
     lineHeight: 1.4,
     marginBottom: 2,
   },
-
   bulletItem: {
     flexDirection: 'row',
     marginLeft: 12,
     marginTop: 2,
     marginBottom: 2,
   },
-
   bulletDot: {
     width: 12,
     fontSize: 10,
   },
-
   bulletText: {
     flex: 1,
     fontSize: 10,
     lineHeight: 1.4,
   },
-
   link: {
-    color: '#2563eb', // Standard link blue
+    color: '#2563eb',
     textDecoration: 'underline',
     fontSize: 9,
   },
-
   skillLine: {
     fontSize: 10,
     lineHeight: 1.4,
     marginTop: 2,
   },
-  
   projectHeader: {
     flexDirection: 'row', 
     alignItems: 'baseline', 
@@ -122,6 +105,7 @@ const styles = StyleSheet.create({
   }
 });
 
+// IMPORTANT: This function declaration must exist!
 const ClassicPdf = ({ 
   personalInfo = {}, 
   summary = '', 
@@ -156,6 +140,8 @@ const ClassicPdf = ({
           )}
         </View>
       </View>
+
+      <View style={styles.hr} />
 
       {/* Summary */}
       {summary ? (
@@ -282,6 +268,6 @@ const ClassicPdf = ({
       )}
     </View>
   );
-}
+}; // This closing bracket pairs with the `const ClassicPdf = ...` opening bracket
 
 export default ClassicPdf;
